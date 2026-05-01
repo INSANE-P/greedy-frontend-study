@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 
-export function useSectionNav(total: number) {
+export function useSectionNav(total: number, disabled = false) {
   const [active, setActive] = useState(0)
   const lockRef = useRef(false)
+  const disabledRef = useRef(disabled)
+
+  useEffect(() => {
+    disabledRef.current = disabled
+  }, [disabled])
 
   const goTo = useCallback(
     (idx: number) => {
@@ -31,6 +36,7 @@ export function useSectionNav(total: number) {
     root.addEventListener('scroll', onScroll, { passive: true })
 
     const onKey = (e: KeyboardEvent) => {
+      if (disabledRef.current) return
       if (e.target instanceof HTMLElement) {
         const tag = e.target.tagName
         if (tag === 'INPUT' || tag === 'TEXTAREA') return

@@ -1,13 +1,13 @@
 export const sectionMeta = [
-  { id: 'hero', label: '00' },
-  { id: 'about', label: '01' },
-  { id: 'beginning', label: '02' },
-  { id: 'curriculum', label: '03' },
-  { id: 'mission-rework', label: '04' },
-  { id: 'process', label: '05' },
-  { id: 'operations', label: '06' },
-  { id: 'people', label: '07' },
-  { id: 'closing', label: '08' },
+  { id: 'hero', label: '00', title: '인트로' },
+  { id: 'about', label: '01', title: '소개' },
+  { id: 'beginning', label: '02', title: '시작 계기' },
+  { id: 'curriculum', label: '03', title: '커리큘럼' },
+  { id: 'mission-rework', label: '04', title: '미션 리뉴얼' },
+  { id: 'process', label: '05', title: '진행 방식' },
+  { id: 'operations', label: '06', title: '운영' },
+  { id: 'people', label: '07', title: '사람들' },
+  { id: 'closing', label: '08', title: '끝' },
 ] as const
 
 export const speakerNotes: Record<string, string> = {

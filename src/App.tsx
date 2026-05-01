@@ -1,9 +1,17 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSectionNav } from './hooks/useSectionNav'
 import { usePresentation } from './hooks/usePresentation'
+import { useSlideHash } from './hooks/useSlideHash'
+import { useShortcuts } from './hooks/useShortcuts'
+import { useAutoHideCursor } from './hooks/useAutoHideCursor'
 import { SectionIndicator } from './components/SectionIndicator'
 import { PresenterNotes } from './components/PresenterNotes'
 import { StartButton } from './components/StartButton'
+import { ShortcutsOverlay } from './components/ShortcutsOverlay'
+import { SlideOverview } from './components/SlideOverview'
+import { BlackoutOverlay } from './components/BlackoutOverlay'
+import type { BlackoutKind } from './components/BlackoutOverlay'
+import { PresentationTimer } from './components/PresentationTimer'
 import { sectionMeta } from './data/sections'
 
 import { Hero } from './sections/Hero'
@@ -29,13 +37,20 @@ const sections = [
 ]
 
 export default function App() {
-  const { active, goTo } = useSectionNav(sections.length)
   const [showNotes, setShowNotes] = useState(false)
+  const [showHelp, setShowHelp] = useState(false)
+  const [showOverview, setShowOverview] = useState(false)
+  const [blackout, setBlackout] = useState<BlackoutKind>('off')
+
+  const navDisabled = showHelp || showOverview || blackout !== 'off'
+  const { active, goTo } = useSectionNav(sections.length, navDisabled)
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    setShowNotes(params.get('notes') === 'true')
+    if (params.get('notes') === 'true') setShowNotes(true)
   }, [])
+
+  useSlideHash(active, goTo)
 
   const onStart = useCallback(() => goTo(0), [goTo])
   const onAdvance = useCallback(() => {
@@ -46,6 +61,31 @@ export default function App() {
   }, [goTo])
 
   const { presenting, start } = usePresentation({ onStart, onAdvance })
+
+  useAutoHideCursor(presenting)
+
+  const toggleNotes = useCallback(() => setShowNotes((v) => !v), [])
+  const toggleHelp = useCallback(() => {
+    setShowOverview(false)
+    setShowHelp((v) => !v)
+  }, [])
+  const toggleOverview = useCallback(() => {
+    setShowHelp(false)
+    setShowOverview((v) => !v)
+  }, [])
+  const onBlackout = useCallback((kind: 'black' | 'white') => {
+    setShowHelp(false)
+    setShowOverview(false)
+    setBlackout((cur) => (cur === kind ? 'off' : kind))
+  }, [])
+  const dismissBlackout = useCallback(() => setBlackout('off'), [])
+
+  useShortcuts({
+    onToggleNotes: toggleNotes,
+    onToggleOverview: toggleOverview,
+    onToggleHelp: toggleHelp,
+    onBlackout,
+  })
 
   return (
     <>
@@ -62,8 +102,18 @@ export default function App() {
 
       <SectionIndicator active={active} onJump={goTo} />
       <StartButton onStart={start} hidden={presenting} />
+      <PresentationTimer running={presenting} visible={showNotes} />
       {showNotes && <PresenterNotes active={active} />}
       <Watermark active={active} total={sections.length} />
+
+      <SlideOverview
+        open={showOverview}
+        active={active}
+        onClose={() => setShowOverview(false)}
+        onSelect={goTo}
+      />
+      <ShortcutsOverlay open={showHelp} onClose={() => setShowHelp(false)} />
+      <BlackoutOverlay kind={blackout} onDismiss={dismissBlackout} />
     </>
   )
 }
