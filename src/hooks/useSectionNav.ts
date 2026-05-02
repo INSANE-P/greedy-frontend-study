@@ -1,13 +1,24 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 
-export function useSectionNav(total: number, disabled = false) {
+type Options = {
+  disabled?: boolean
+  onPastEnd?: () => void
+}
+
+export function useSectionNav(total: number, options: Options = {}) {
+  const { disabled = false, onPastEnd } = options
   const [active, setActive] = useState(0)
   const lockRef = useRef(false)
   const disabledRef = useRef(disabled)
+  const onPastEndRef = useRef(onPastEnd)
 
   useEffect(() => {
     disabledRef.current = disabled
   }, [disabled])
+
+  useEffect(() => {
+    onPastEndRef.current = onPastEnd
+  }, [onPastEnd])
 
   const goTo = useCallback(
     (idx: number) => {
@@ -48,7 +59,11 @@ export function useSectionNav(total: number, disabled = false) {
         case 'PageDown':
         case ' ':
           e.preventDefault()
-          goTo(cur + 1)
+          if (cur >= total - 1) {
+            onPastEndRef.current?.()
+          } else {
+            goTo(cur + 1)
+          }
           break
         case 'ArrowUp':
         case 'ArrowLeft':

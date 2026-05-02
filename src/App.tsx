@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSectionNav } from './hooks/useSectionNav'
 import { usePresentation } from './hooks/usePresentation'
 import { useSlideHash } from './hooks/useSlideHash'
@@ -43,7 +43,19 @@ export default function App() {
   const [blackout, setBlackout] = useState<BlackoutKind>('off')
 
   const navDisabled = showHelp || showOverview || blackout !== 'off'
-  const { active, goTo } = useSectionNav(sections.length, navDisabled)
+
+  const stopRef = useRef<(() => void) | null>(null)
+
+  const onPastEnd = useCallback(() => {
+    if (document.fullscreenElement) {
+      stopRef.current?.()
+    }
+  }, [])
+
+  const { active, goTo } = useSectionNav(sections.length, {
+    disabled: navDisabled,
+    onPastEnd,
+  })
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -57,10 +69,18 @@ export default function App() {
     const root = document.getElementById('root')
     if (!root) return
     const cur = Math.round(root.scrollTop / window.innerHeight)
+    if (cur >= sections.length - 1) {
+      stopRef.current?.()
+      return
+    }
     goTo(cur + 1)
   }, [goTo])
 
-  const { presenting, start } = usePresentation({ onStart, onAdvance })
+  const { presenting, start, stop } = usePresentation({ onStart, onAdvance })
+
+  useEffect(() => {
+    stopRef.current = stop
+  }, [stop])
 
   useAutoHideCursor(presenting)
 
