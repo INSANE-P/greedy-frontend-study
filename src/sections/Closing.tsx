@@ -49,7 +49,7 @@ export function Closing({ active }: Props) {
         </motion.h2>
 
         <motion.div variants={rise} className="mb-6 md:mb-8">
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.22em] text-muted md:mb-4 md:text-sm">
+          <p className="mb-6 font-mono text-xs uppercase tracking-[0.22em] text-muted md:mb-8 md:text-sm">
             행사 주최 · 기획
           </p>
           <div className="flex items-center gap-4 md:gap-6">
@@ -60,25 +60,40 @@ export function Closing({ active }: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-no-advance
-                initial={{ opacity: 0, y: -28, scale: 0.55 }}
+                initial={{ opacity: 0, scale: 0.55 }}
                 animate={
                   active
-                    ? { opacity: 1, y: 0, scale: 1 }
-                    : { opacity: 0, y: -28, scale: 0.55 }
+                    ? { opacity: 1, scale: 1 }
+                    : { opacity: 0, scale: 0.55 }
                 }
                 transition={{
                   type: 'spring',
                   stiffness: 260,
-                  damping: 9,
+                  damping: 10,
                   delay: 0.5 + i * 0.18,
                 }}
-                whileHover={{ y: -4, transition: { type: 'spring', stiffness: 300, damping: 12 } }}
+                whileHover={{ scale: 1.08 }}
                 className="group flex items-center gap-2.5 md:gap-3"
               >
-                <img
+                <motion.img
                   src={p.avatar}
                   alt={p.name}
                   draggable={false}
+                  animate={
+                    active
+                      ? { y: [0, -10, 0] }
+                      : { y: 0 }
+                  }
+                  transition={
+                    active
+                      ? {
+                          duration: 1.4 + i * 0.25,
+                          repeat: Infinity,
+                          ease: 'easeInOut',
+                          delay: 1.2 + i * 0.2,
+                        }
+                      : { duration: 0 }
+                  }
                   className="block h-10 w-10 rounded-full object-cover ring-[2px] ring-bg shadow-[0_6px_18px_-4px_rgba(0,0,0,0.5)] transition-shadow duration-200 group-hover:shadow-[0_10px_24px_-4px_rgba(31,180,132,0.5)] md:h-12 md:w-12"
                   onError={(e) => {
                     ;(e.currentTarget as HTMLImageElement).style.visibility =
