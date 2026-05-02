@@ -29,36 +29,51 @@ export function MissionIcon({ variant, ...rest }: Props) {
     case 'baseball':
       return (
         <svg {...common} {...rest}>
+          {/* Ball */}
           <circle cx="16" cy="16" r="11" />
-          <path d="M7 9 Q11 16 7 23" />
-          <path d="M25 9 Q21 16 25 23" />
-          <path d="M9 11 l1.4 0.6 M9 15 l1.4 0.4 M9 19 l1.4 -0.2 M9 22 l1.4 -0.8" />
-          <path d="M23 11 l-1.4 0.6 M23 15 l-1.4 0.4 M23 19 l-1.4 -0.2 M23 22 l-1.4 -0.8" />
+          {/* Stitch curves */}
+          <path d="M8 9 Q11 16 8 23" />
+          <path d="M24 9 Q21 16 24 23" />
+          {/* Cute face */}
+          <circle cx="13" cy="14.5" r="1.3" fill="currentColor" stroke="none" />
+          <circle cx="19" cy="14.5" r="1.3" fill="currentColor" stroke="none" />
+          <path d="M13 19 q3 2.4 6 0" />
         </svg>
       )
     case 'roulette':
+      // Slot machine — 탐욕/카지노 톤
       return (
         <svg {...common} {...rest}>
-          <circle cx="16" cy="16" r="11" />
-          <circle cx="16" cy="16" r="2.4" />
-          <path d="M16 5 L16 14" />
-          <path d="M16 18 L16 27" />
-          <path d="M5 16 L14 16" />
-          <path d="M18 16 L27 16" />
-          <path d="M8.2 8.2 L13 13" />
-          <path d="M19 19 L23.8 23.8" />
-          <path d="M23.8 8.2 L19 13" />
-          <path d="M13 19 L8.2 23.8" />
+          {/* Body */}
+          <rect x="5" y="7" width="22" height="20" rx="2" />
+          {/* Display window */}
+          <rect x="9" y="11" width="14" height="8" rx="1" />
+          {/* Three reels */}
+          <circle cx="12.5" cy="15" r="1.3" fill="currentColor" stroke="none" />
+          <circle cx="16" cy="15" r="1.3" />
+          <circle cx="19.5" cy="15" r="1.3" fill="currentColor" stroke="none" />
+          {/* Coin tray */}
+          <rect x="13" y="22" width="6" height="2.5" rx="0.5" />
+          {/* Lever */}
+          <line x1="27" y1="13" x2="29" y2="13" />
+          <circle cx="29.5" cy="13" r="1" fill="currentColor" stroke="none" />
         </svg>
       )
     case 'zombie':
       return (
         <svg {...common} {...rest}>
-          {/* simple ghost / pacman-ghost shape */}
-          <path d="M6 16 a10 10 0 0 1 20 0 v9 l-2.5 -2 l-2.5 2 l-2.5 -2 l-2.5 2 l-2.5 -2 l-2.5 2 l-2.5 -2 l-2.5 2 z" />
-          <circle cx="12" cy="14" r="1.6" fill="currentColor" />
-          <circle cx="20" cy="14" r="1.6" fill="currentColor" />
-          <path d="M12 19 q2 1.5 4 0 q2 -1.5 4 0" />
+          {/* Round head with wavy bottom */}
+          <path d="M6 16 a10 10 0 0 1 20 0 v9 l-3 -2 l-3 2 l-3 -2 l-3 2 l-3 -2 l-3 2 z" />
+          {/* X eye (left) */}
+          <line x1="10" y1="12.5" x2="13" y2="15.5" />
+          <line x1="13" y1="12.5" x2="10" y2="15.5" />
+          {/* Open eye (right) */}
+          <circle cx="20" cy="14" r="1.5" fill="currentColor" stroke="none" />
+          {/* Stitched mouth */}
+          <path d="M11.5 20 L20.5 20" />
+          <line x1="14" y1="19" x2="14" y2="21" />
+          <line x1="16.5" y1="19" x2="16.5" y2="21" />
+          <line x1="19" y1="19" x2="19" y2="21" />
         </svg>
       )
     case 'react':
@@ -101,17 +116,19 @@ export function MissionIcon({ variant, ...rest }: Props) {
             ry="4.2"
             transform="rotate(120 16 16)"
           />
-          {/* extra orbiting dots */}
-          <circle cx="27" cy="16" r="1.2" fill="currentColor" stroke="none" />
-          <circle cx="5" cy="16" r="1.2" fill="currentColor" stroke="none" />
+          {/* Sparkle accents — leveled up */}
+          <path d="M28 6 L28 9 M26.5 7.5 L29.5 7.5" />
+          <path d="M4 26 L4 28.5 M3 27.25 L5 27.25" />
         </svg>
       )
     case 'free':
+      // 4-point star with sparkle — 창작 시그널
       return (
         <svg {...common} {...rest}>
-          <rect x="5" y="5" width="22" height="22" rx="2" />
-          <path d="M11.5 12.5 q0 -3.5 4.5 -3.5 q4.5 0 4.5 3.5 q0 2.5 -3 3.5 q-1.5 0.5 -1.5 2.5" />
-          <circle cx="16" cy="22" r="0.8" fill="currentColor" stroke="none" />
+          <path d="M16 4 L18.5 13.5 L28 16 L18.5 18.5 L16 28 L13.5 18.5 L4 16 L13.5 13.5 Z" />
+          <circle cx="16" cy="16" r="1.4" fill="currentColor" stroke="none" />
+          {/* Tiny sparkle bottom-right */}
+          <path d="M26 25 L26 28 M24.5 26.5 L27.5 26.5" />
         </svg>
       )
     case 'pokeball':
@@ -121,6 +138,8 @@ export function MissionIcon({ variant, ...rest }: Props) {
           <path d="M5 16 H27" />
           <circle cx="16" cy="16" r="3.2" />
           <circle cx="16" cy="16" r="1.2" fill="currentColor" stroke="none" />
+          {/* Top-left shine */}
+          <path d="M9 10 q1 -1.2 3 -1.7" opacity="0.6" />
         </svg>
       )
   }
