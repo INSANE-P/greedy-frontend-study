@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { SectionShell } from '../components/SectionShell'
 import { Logo } from '../components/Logo'
 import { Crown } from '../components/Crown'
+import { CohortCredits } from '../components/CohortCredits'
 import { rise, scaleIn, stagger } from '../lib/anim'
 
 type Props = { active: boolean }
@@ -31,23 +32,24 @@ export function Closing({ active }: Props) {
         variants={container}
         initial="initial"
         animate={animate}
-        className="relative flex h-full w-full flex-col px-8 py-14 md:px-20 md:py-20"
+        className="relative flex h-full w-full px-8 py-14 md:px-20 md:py-20 md:gap-10"
       >
-        <motion.p
-          variants={rise}
-          className="font-mono text-sm uppercase tracking-[0.18em] text-sub md:text-base"
-        >
-          08 — 끝
-        </motion.p>
+        <div className="flex flex-1 flex-col">
+          <motion.p
+            variants={rise}
+            className="font-mono text-sm uppercase tracking-[0.18em] text-sub md:text-base"
+          >
+            08 — 끝
+          </motion.p>
 
-        <motion.h2
-          variants={rise}
-          className="my-auto text-display font-semibold leading-[0.95] tracking-tightest text-ink"
-        >
-          <span className="text-brand">그리디</span>
-          <br />
-          화이팅!
-        </motion.h2>
+          <motion.h2
+            variants={rise}
+            className="my-auto text-display font-semibold leading-[0.95] tracking-tightest text-ink"
+          >
+            <span className="text-brand">그리디</span>
+            <br />
+            화이팅!
+          </motion.h2>
 
         <motion.div variants={rise} className="mb-6 md:mb-8">
           <p className="mb-6 font-mono text-xs uppercase tracking-[0.22em] text-muted md:mb-8 md:text-sm">
@@ -117,19 +119,27 @@ export function Closing({ active }: Props) {
           </div>
         </motion.div>
 
+          <motion.div
+            variants={rise}
+            className="flex items-end justify-between gap-4"
+          >
+            <motion.span
+              variants={scaleIn}
+              className="text-lg text-sub md:text-2xl"
+            >
+              감사합니다.
+            </motion.span>
+            <motion.div variants={scaleIn}>
+              <Logo className="h-14 w-14 md:h-20 md:w-20" />
+            </motion.div>
+          </motion.div>
+        </div>
+
         <motion.div
           variants={rise}
-          className="flex items-end justify-between gap-4"
+          className="hidden md:block md:w-60 lg:w-72"
         >
-          <motion.span
-            variants={scaleIn}
-            className="text-lg text-sub md:text-2xl"
-          >
-            감사합니다.
-          </motion.span>
-          <motion.div variants={scaleIn}>
-            <Logo className="h-14 w-14 md:h-20 md:w-20" />
-          </motion.div>
+          <CohortCredits active={active} />
         </motion.div>
       </motion.div>
     </SectionShell>
