@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { SectionShell } from '../components/SectionShell'
 import { Logo } from '../components/Logo'
+import { Crown } from '../components/Crown'
 import { rise, scaleIn, stagger } from '../lib/anim'
 
 type Props = { active: boolean }
@@ -75,10 +76,8 @@ export function Closing({ active }: Props) {
                 whileHover={{ scale: 1.08 }}
                 className="group flex items-center gap-2.5 md:gap-3"
               >
-                <motion.img
-                  src={p.avatar}
-                  alt={p.name}
-                  draggable={false}
+                <motion.div
+                  className="relative"
                   animate={
                     active
                       ? { y: [0, -10, 0] }
@@ -94,12 +93,22 @@ export function Closing({ active }: Props) {
                         }
                       : { duration: 0 }
                   }
-                  className="block h-10 w-10 rounded-full object-cover ring-[2px] ring-bg shadow-[0_6px_18px_-4px_rgba(0,0,0,0.5)] transition-shadow duration-200 group-hover:shadow-[0_10px_24px_-4px_rgba(31,180,132,0.5)] md:h-12 md:w-12"
-                  onError={(e) => {
-                    ;(e.currentTarget as HTMLImageElement).style.visibility =
-                      'hidden'
-                  }}
-                />
+                >
+                  <Crown
+                    variant="mint"
+                    className="absolute -top-3 left-1/2 z-10 w-7 -translate-x-1/2 -rotate-6 drop-shadow-[0_3px_6px_rgba(0,0,0,0.45)] md:-top-3.5 md:w-8"
+                  />
+                  <img
+                    src={p.avatar}
+                    alt={p.name}
+                    draggable={false}
+                    className="block h-10 w-10 rounded-full object-cover ring-[2px] ring-bg shadow-[0_6px_18px_-4px_rgba(0,0,0,0.5)] transition-shadow duration-200 group-hover:shadow-[0_10px_24px_-4px_rgba(31,180,132,0.5)] md:h-12 md:w-12"
+                    onError={(e) => {
+                      ;(e.currentTarget as HTMLImageElement).style.visibility =
+                        'hidden'
+                    }}
+                  />
+                </motion.div>
                 <span className="text-base font-semibold text-ink md:text-lg">
                   {p.name}
                 </span>

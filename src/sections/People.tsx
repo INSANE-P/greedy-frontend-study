@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
 import { SectionShell } from '../components/SectionShell'
+import { Crown } from '../components/Crown'
 import { people } from '../data/sections'
 import type { Person } from '../data/sections'
 import { rise, scaleIn, stagger } from '../lib/anim'
@@ -67,6 +68,12 @@ function Avatar({
       className="group flex flex-col items-center"
     >
       <div className="relative">
+        {p.role === 'reviewer' && (
+          <Crown
+            variant="gold"
+            className="absolute -top-3 left-1/2 z-10 w-8 -translate-x-1/2 -rotate-6 drop-shadow-[0_3px_6px_rgba(0,0,0,0.45)] md:-top-4 md:w-10"
+          />
+        )}
         <img
           src={p.avatar}
           alt={p.name}
